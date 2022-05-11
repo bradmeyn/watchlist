@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { useState } from 'react';
-import Card from '../components/shared/Card';
+import Carousel from '../components/shared/Carousel';
+import background from '../assets/background.webp';
 
 const API_KEY = process.env.REACT_APP_API_KEY;
-const posterPath = 'https://image.tmdb.org/t/p/w200';
 
 const Home = () => {
   const [movies, setMovies] = useState([]);
@@ -18,7 +18,7 @@ const Home = () => {
       language: 'en-AU',
     });
 
-    const movieUrl = `https://api.themoviedb.org/3/movie/popular?${params}`;
+    const movieUrl = `https://api.themoviedb.org/3/movie/top_rated?${params}`;
 
     const response = await fetch(movieUrl);
 
@@ -28,17 +28,25 @@ const Home = () => {
   };
 
   return (
-    <div className='flex-1 carousel carousel-end rounded-box'>
-      {movies.map((movie) => (
-        <div className='carousel-item'>
-          <Card
-            key={movie.id}
-            title={movie.title}
-            poster={`${posterPath}${movie.poster_path}`}
-          />
-        </div>
-      ))}
-    </div>
+    <>
+      <div
+        className=' text-left py-20 px-6 bg-cover bg-no-repeat bg-top mb-10'
+        style={{
+          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(${background})`,
+        }}
+      >
+        <h1 className='mb-5 text-7xl font-bold text-white text-left opacity-100'>
+          <div className='pb-4'>Stop browsing,</div>
+          <div className=''>start watching.</div>
+        </h1>
+        <p className='text-2xl'>
+          Watchlist allows you to keep track of movies your want to watch next.
+        </p>
+      </div>
+      <Carousel title={'Popular Movies'} movies={movies} />
+      <Carousel title={'Popular Movies'} movies={movies} />
+      <Carousel title={'Popular Movies'} movies={movies} />
+    </>
   );
 };
 
