@@ -4,7 +4,7 @@ import { BiCameraMovie } from 'react-icons/bi';
 
 const Navbar = () => {
   return (
-    <nav class='navbar bg-base-300  '>
+    <nav className='navbar bg-base-300  '>
       <div className='container mx-auto'>
         <Link
           to='/'

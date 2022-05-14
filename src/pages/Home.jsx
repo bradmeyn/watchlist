@@ -2,30 +2,30 @@ import React, { useEffect } from 'react';
 import { useState } from 'react';
 import Carousel from '../components/shared/Carousel';
 import background from '../assets/background.webp';
+import useFetch from '../Hooks/useFetch';
 
 const API_KEY = process.env.REACT_APP_API_KEY;
 
+const params = new URLSearchParams({
+  api_key: API_KEY,
+  language: 'en-AU',
+});
+
 const Home = () => {
-  const [movies, setMovies] = useState([]);
-
-  useEffect(() => {
-    getMovies();
-  }, []);
-
-  const getMovies = async () => {
-    const params = new URLSearchParams({
-      api_key: API_KEY,
-      language: 'en-AU',
-    });
-
-    const movieUrl = `https://api.themoviedb.org/3/movie/top_rated?${params}`;
-
-    const response = await fetch(movieUrl);
-
-    const { results } = await response.json();
-    console.log(results);
-    setMovies(results);
-  };
+  const collections = [
+    {
+      title: 'Popular Now',
+      url: `https://api.themoviedb.org/3/trending/movie/week?${params}`,
+    },
+    {
+      title: 'Top Rated',
+      url: `https://api.themoviedb.org/3/movie/top_rated?${params}`,
+    },
+    {
+      title: 'Popular Movies',
+      url: `https://api.themoviedb.org/3/discover/movie?${params}&primary_release_year=2018&sort_by=top_rated`,
+    },
+  ];
 
   return (
     <>
@@ -43,9 +43,10 @@ const Home = () => {
           Watchlist allows you to keep track of movies your want to watch next.
         </p>
       </div>
-      <Carousel title={'Popular Movies'} movies={movies} />
-      <Carousel title={'Popular Movies'} movies={movies} />
-      <Carousel title={'Popular Movies'} movies={movies} />
+
+      {collections.map((collection) => (
+        <Carousel title={collection.title} url={`${collection.url}`} />
+      ))}
     </>
   );
 };
