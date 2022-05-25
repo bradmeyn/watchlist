@@ -17,6 +17,7 @@ const Carousel = ({ title, url }) => {
           <div className='carousel-item'>
             <Card
               key={movie.id}
+              id={movie.id}
               title={movie.title}
               poster={`${posterPath}${movie.poster_path}`}
             />

@@ -5,6 +5,7 @@ import { Route, Routes } from 'react-router-dom';
 import Home from './pages/Home';
 import NotFound from './pages/NotFound';
 import User from './pages/User';
+import MovieDetail from './pages/MovieDetail';
 
 function App() {
   return (
@@ -12,8 +13,9 @@ function App() {
       <Navbar />
       <main className='content-start container mx-auto px-3 pb-12'>
         <Routes>
-          <Route path='/' element={<Home />} />
-          <Route path='/user' element={<User />} />
+          <Route exact path='/' element={<Home />} />
+          <Route exact path='/user' element={<User />} />
+          <Route path='/movies/:movieId' element={<MovieDetail />} />
           <Route path='/*' element={<NotFound />} />
         </Routes>
       </main>
