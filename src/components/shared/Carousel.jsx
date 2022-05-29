@@ -4,14 +4,12 @@ import useFetch from '../../Hooks/useFetch';
 const posterPath = 'https://image.tmdb.org/t/p/w200';
 
 const Carousel = ({ title, url }) => {
-  console.log(title, url);
-
   const { data, loading, error } = useFetch(url);
   console.log(data);
   return (
     <div className='mb-8'>
-      {' '}
       <h2 className='pl-2 pb-4 text-white text-3xl'>{title}</h2>
+
       <div className='flex-1 carousel carousel-end rounded-box'>
         {data.map((movie) => (
           <div className='carousel-item'>
