@@ -20,6 +20,7 @@
   font-size: 2rem;
   border: none;
 }
+
 .search__input .input::placeholder {
   color: #999999;
 }
