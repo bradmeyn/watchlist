@@ -13,7 +13,7 @@ const Navbar = () => {
           to='/'
           className='text-2xl text-white align-middle flex items-center'
         >
-          <BiCameraMovie className='mr-2 text-3xl text-cyan-400' />
+          <BiCameraMovie className='mr-2 text-3xl text-cyan-500' />
           <div>Watchlist</div>
         </Link>
         <Search />

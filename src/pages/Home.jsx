@@ -12,18 +12,25 @@ const params = new URLSearchParams({
 });
 
 const Home = () => {
+  const year = Math.floor(Math.random() * 51) + 1970;
   const collections = [
     {
       title: 'Popular Now',
       url: `https://api.themoviedb.org/3/trending/movie/week?${params}`,
     },
     {
-      title: 'Top Rated',
+      title: 'Top Rated of All Time',
       url: `https://api.themoviedb.org/3/movie/top_rated?${params}`,
     },
     {
-      title: 'Popular Movies',
-      url: `https://api.themoviedb.org/3/discover/movie?${params}&primary_release_year=2018&sort_by=top_rated`,
+      title: `Biggest Movies of ${year}`,
+      url: `https://api.themoviedb.org/3/discover/movie?${params}&primary_release_year=${year}&sort_by=revenue.desc`,
+    },
+    {
+      title: `Biggest Movies of ${year + 1}`,
+      url: `https://api.themoviedb.org/3/discover/movie?${params}&primary_release_year=${
+        year + 1
+      }&sort_by=revenue.desc`,
     },
   ];
 

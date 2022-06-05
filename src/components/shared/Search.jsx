@@ -1,7 +1,8 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { AiOutlineSearch, AiFillStar } from 'react-icons/ai';
 import './Search.css';
-import { Link } from 'react-router-dom';
+
+import SearchDropdown from './SearchDropdown';
 
 const API_KEY = process.env.REACT_APP_API_KEY;
 
@@ -12,17 +13,11 @@ const params = new URLSearchParams({
 
 const Search = () => {
   const [movies, setMovies] = useState([]);
+  const [query, setQuery] = useState('');
+
   const searchInput = useRef(null);
 
-  const handleFocus = () => {
-    searchInput.current.focus();
-  };
-
-  const handleFocusOut = () => {
-    setMovies([]);
-  };
-
-  const searchMovies = async (query) => {
+  const searchMovies = async () => {
     const response = await fetch(
       `https://api.themoviedb.org/3/search/movie?${params}&query=${query}&page=1&include_adult=false`
     );
@@ -32,56 +27,51 @@ const Search = () => {
     setMovies(results);
   };
 
-  const handleInput = (e) => {
-    const { value } = e.target;
-    console.log(e.target.value);
-    if (value.trim().length === 0) {
-      setMovies([]);
+  useEffect(() => {
+    if (query.trim().length > 0) {
+      searchMovies(query);
     } else {
-      searchMovies(value);
+      setMovies([]);
     }
+  }, [query]);
+
+  const focusInput = () => {
+    searchInput.current.focus();
+  };
+
+  // const handleFocusOut = () => {
+  //   setTimeout(() => {
+  //     setMovies([]);
+  //   }, 100);
+  // };
+
+  const handleChange = (e) => {
+    const { value } = e.target;
+    setQuery(value);
+  };
+
+  const handleFocus = () => {
+    // searchMovies(query);
   };
 
   return (
     <div className='flex-col relative w-full mx-10 '>
       <div
         className='flex items-center flex-1 relative search'
-        onClick={handleFocus}
+        onClick={focusInput}
       >
         <input
           type='text'
           ref={searchInput}
           placeholder='Search movie...'
           className='input w-full pl-12 text-md text-white search__input input'
-          onInput={handleInput}
-          onBlur={handleFocusOut}
+          onChange={handleChange}
+          // onBlur={handleFocusOut}
+          onFocus={handleFocus}
         />
         <AiOutlineSearch className='text-2xl focus:white search__icon' />
       </div>
-
-      <ul className='search__dropdown active w-full'>
-        {movies.map((movie) => (
-          <Link to={`movies/${movie.id}`}>
-            <li className='movie'>
-              <img
-                src={`https://image.tmdb.org/t/p/w300${movie.poster_path}`}
-                alt=''
-                class='movie__img'
-              />
-              <div className='movie__text'>
-                <span className='movie__title'>{movie.original_title}</span>
-                <span className='movie__year'>
-                  {new Date(movie.release_date).getFullYear()}
-                </span>
-                <span className='flex items-center'>
-                  <AiFillStar className='mr-2 text-yellow-400' />
-                  <span>{movie.vote_average}</span>
-                </span>
-              </div>
-            </li>
-          </Link>
-        ))}
-      </ul>
+      <SearchDropdown movies={movies} />
     </div>
   );
 };
