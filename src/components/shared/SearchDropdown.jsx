@@ -10,7 +10,7 @@ const SearchDropdown = ({ movies, query }) => {
 
   useEffect(() => {
     setDropDownActive(true);
-  }, [movies, query]);
+  }, [movies]);
 
   useOutsideClick(dropdown, () => {
     setDropDownActive(false);

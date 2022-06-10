@@ -11,7 +11,7 @@ function App() {
   return (
     <div className='flex flex-col  h-screen'>
       <Navbar />
-      <main className='content-start container mx-auto px-3 pb-12'>
+      <main className='content-start container mx-auto px-3 pb-12 '>
         <Routes>
           <Route exact path='/' element={<Home />} />
           <Route exact path='/user' element={<User />} />

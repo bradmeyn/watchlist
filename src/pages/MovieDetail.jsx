@@ -30,19 +30,19 @@ const MovieDetail = () => {
     movie && (
       <div>
         <div
-          className=' text-left py-20 px-6 bg-cover bg-no-repeat bg-top mb-10'
+          className='text-left py-10 md:py-20 px-6 bg-cover bg-no-repeat bg-top mb-10'
           style={{
             backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(https://image.tmdb.org/t/p/w500${movie.backdrop_path})`,
           }}
         >
           <div className='hero-content justify-start flex-col lg:flex-row '>
             <img
-              className=' rounded-lg shadow-2xl mr-4'
+              className='rounded-lg shadow-2xl md:mr-4 w-40 md:w-60 lg:w-80 mb-2 '
               src={`https://image.tmdb.org/t/p/w300${movie.poster_path}`}
               alt='movie poster'
             />
             <div className='justify-self-start content-start'>
-              <h1 className='mb-2 text-5xl font-bold text-white text-left opacity-100'>
+              <h1 className='mb-2 text-3xl md:text-5xl font-bold text-white text-left opacity-100'>
                 {movie.original_title}
               </h1>
               <p className='text-lg mb-4'>
