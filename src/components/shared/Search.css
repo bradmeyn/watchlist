@@ -1,6 +1,14 @@
 .search__icon {
   position: absolute;
-  left: 10px;
+  left: 12px;
+}
+
+.search__cancel {
+  color: #ffffff;
+  position: absolute;
+  right: 15px;
+  z-index: 1000;
+  cursor: pointer;
 }
 
 .search__input:focus + .search__icon {
@@ -8,35 +16,22 @@
 }
 
 .search {
-  margin: 0 auto;
-
+  position: relative;
   box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
 }
 
-.search__input .input {
-  color: #666666;
+.search__input {
   width: 100%;
-  padding: 1.5rem 6rem;
-  font-size: 2rem;
+  outline: none;
   border: none;
 }
 
-.search__input .input::placeholder {
-  color: #999999;
-}
-.search__input .input:focus-visible {
-  outline: none;
-}
-.search__input .input:focus ~ i {
-  color: #bcc4fc;
-}
 .search__dropdown {
   display: none;
 }
 .search__dropdown.search__dropdown--active {
   position: absolute;
   z-index: 100;
-  background-color: #ffffff;
   width: 100%;
   display: block;
   list-style: none;
@@ -50,54 +45,5 @@
   text-decoration: none;
 }
 .search__item:hover {
-  background-color: #eeeeee;
   cursor: pointer;
-}
-
-.movie {
-  display: flex;
-  border-top: 2px solid #eeeeee;
-}
-.movie > * {
-  pointer-events: none;
-}
-.movie:hover {
-  background-color: #eeeeee;
-  cursor: pointer;
-}
-.movie__text {
-  display: flex;
-  flex-direction: column;
-  padding: 1rem;
-}
-.movie__title {
-  font-size: 2rem;
-  display: block;
-  width: 100%;
-  color: #333333;
-  text-decoration: none;
-  margin-bottom: 0.5rem;
-}
-.movie__year {
-  font-size: 1.5rem;
-  display: block;
-  width: 100%;
-  color: #999999;
-  text-decoration: none;
-  margin-bottom: 0.5rem;
-}
-.movie__rating {
-  font-size: 1.5rem;
-  display: block;
-  width: 100%;
-  color: #999999;
-  text-decoration: none;
-}
-.movie__rating i {
-  margin-right: 0.5rem;
-  color: #e1b517;
-}
-.movie__img {
-  padding: 0.5rem;
-  height: 12rem;
 }

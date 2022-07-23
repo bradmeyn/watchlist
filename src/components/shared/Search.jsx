@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
-import { AiOutlineSearch, AiFillStar } from 'react-icons/ai';
+import { AiOutlineSearch, AiFillStar, AiOutlineClose } from 'react-icons/ai';
 import './Search.css';
-
+import useOutsideClick from '../../Hooks/useOutsideClick';
 import SearchDropdown from './SearchDropdown';
 
 const API_KEY = process.env.REACT_APP_API_KEY;
@@ -12,9 +12,10 @@ const params = new URLSearchParams({
 });
 
 const Search = () => {
+  const [active, setActive] = useState(false);
   const [movies, setMovies] = useState([]);
   const [query, setQuery] = useState('');
-
+  const search = useRef(null);
   const searchInput = useRef(null);
 
   const searchMovies = async () => {
@@ -28,6 +29,7 @@ const Search = () => {
   };
 
   useEffect(() => {
+    setQuery('');
     if (query.trim().length > 0) {
       searchMovies(query);
     } else {
@@ -35,45 +37,67 @@ const Search = () => {
     }
   }, [query]);
 
+  useOutsideClick(search, () => {
+    if (active) {
+      closeSearch();
+    }
+  });
+
   const focusInput = () => {
     searchInput.current.focus();
   };
-
-  // const handleFocusOut = () => {
-  //   setTimeout(() => {
-  //     setMovies([]);
-  //   }, 100);
-  // };
 
   const handleChange = (e) => {
     const { value } = e.target;
     setQuery(value);
   };
 
-  const handleFocus = () => {
-    // searchMovies(query);
+  const closeSearch = () => {
+    setActive(false);
   };
 
-  return (
-    <div className='flex-col relative w-full mx-10 '>
-      <div
-        className='flex items-center flex-1 relative search'
-        onClick={focusInput}
-      >
-        <input
-          type='text'
-          ref={searchInput}
-          placeholder='Search movie...'
-          className='input w-full pl-12 text-md text-white search__input input'
-          onChange={handleChange}
-          // onBlur={handleFocusOut}
-          onFocus={handleFocus}
-        />
-        <AiOutlineSearch className='text-2xl focus:white search__icon' />
+  const handleFocus = () => {
+    searchMovies(query);
+  };
+
+  const activateSearch = (e) => {
+    e.stopPropagation();
+    setActive(true);
+  };
+
+  const render = active ? (
+    <div className='fixed p-0 top-0 left-0 h-full w-full z-50  backdrop-blur-md  bg-slate-900/30 '>
+      <div ref={search} className='m-10 '>
+        <div
+          className='flex items-center flex-1 relative search '
+          onClick={focusInput}
+        >
+          <input
+            autoFocus
+            type='search'
+            ref={searchInput}
+            placeholder='Search movie'
+            className='w-full pl-12 py-3 text-md md:text-lg text-white search__input  bg-slate-700'
+            onChange={handleChange}
+            onFocus={handleFocus}
+          />
+          <AiOutlineSearch className='text-lg md:text-2xl  search__icon' />
+          <AiOutlineClose
+            className='text-xl md:text-2xl text-white search__cancel'
+            onClick={closeSearch}
+          />
+        </div>
+        <SearchDropdown movies={movies} closeSearch={closeSearch} />
       </div>
-      <SearchDropdown movies={movies} />
     </div>
+  ) : (
+    <AiOutlineSearch
+      className='ml-auto mr-5 text-xl md:text-2xl hover:text-white cursor-pointer focus:white '
+      onClick={activateSearch}
+    />
   );
+
+  return <> {render}</>;
 };
 
 export default Search;
