@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { AiFillStar } from 'react-icons/ai';
-
+import { BsFillBookmarkFill, BsCheckLg } from 'react-icons/bs';
 const API_KEY = process.env.REACT_APP_API_KEY;
 
 const params = new URLSearchParams({
@@ -52,8 +52,17 @@ const MovieDetail = () => {
                 </span>
                 {movie.genres.map((genre) => genre.name).join(', ')}
               </p>
-
-              <p className='text-2xl mb-4 italic'>{movie.tagline}</p>
+              <div className='flex justify-around md:justify-start '>
+                <button className='text-lg flex flex-col items-center py-2 md:px-4'>
+                  <BsFillBookmarkFill className='text-xl' />
+                  <span className='pt-1'>Add</span>
+                </button>
+                <button className='text-lg flex flex-col items-center py-2 md:px-4'>
+                  <BsCheckLg className='text-xl' />
+                  <span className='pt-1'>Seen</span>
+                </button>
+              </div>
+              <p className='text-xl mb-4 italic'>{movie.tagline}</p>
               <div className='mb-4'>
                 <h2 className='text-white text-md'>Overview</h2>
                 <p className='text-md '>{movie.overview}</p>

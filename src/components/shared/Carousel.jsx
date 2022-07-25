@@ -10,7 +10,7 @@ const Carousel = ({ title, url }) => {
     <div className='mb-8'>
       <h2 className='pl-2 pb-2 text-white text-xl md:text-2xl'>{title}</h2>
 
-      <div className='flex-1 carousel carousel-end rounded-box'>
+      <div className='flex-1 rounded-none  carousel carousel-end rounded-box'>
         {data.map((movie) => (
           <div className='carousel-item'>
             <Card

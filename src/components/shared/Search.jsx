@@ -15,6 +15,7 @@ const Search = () => {
   const [active, setActive] = useState(false);
   const [movies, setMovies] = useState([]);
   const [query, setQuery] = useState('');
+  const [isDesktop, setDesktop] = useState(false);
   const search = useRef(null);
   const searchInput = useRef(null);
 
@@ -27,6 +28,15 @@ const Search = () => {
     results = results.splice(0, 5);
     setMovies(results);
   };
+
+  const updateScreen = () => {
+    setDesktop(window.innerWidth > 650);
+  };
+
+  useEffect(() => {
+    window.addEventListener('resize', updateScreen);
+    return () => window.removeEventListener('resize', updateScreen);
+  });
 
   useEffect(() => {
     setQuery('');
@@ -65,11 +75,26 @@ const Search = () => {
     setActive(true);
   };
 
+  const searchBtn = isDesktop ? (
+    <button
+      className='flex ml-auto mr-4 items-center relative bg-slate-700 hover:bg-slate-600 py-2 pl-4 pr-40 rounded-md '
+      onClick={activateSearch}
+    >
+      <AiOutlineSearch className='text-lg md:text-2xl mr-2  ' />
+      <span className='text-sm md:text-sm'>Search Movies</span>
+    </button>
+  ) : (
+    <AiOutlineSearch
+      className='ml-auto mr-5 text-xl md:text-2xl hover:text-white cursor-pointer focus:white '
+      onClick={activateSearch}
+    />
+  );
+
   const render = active ? (
-    <div className='fixed p-0 top-0 left-0 h-full w-full z-50  backdrop-blur-md  bg-slate-900/30 '>
-      <div ref={search} className='m-10 '>
+    <div className='fixed p-0 top-0 left-0 h-full w-full z-50 backdrop-blur-md  bg-slate-900/30 '>
+      <div ref={search} className='md:max-w-2xl m-10 md:mx-auto '>
         <div
-          className='flex items-center flex-1 relative search '
+          className='flex items-center flex-1 relative '
           onClick={focusInput}
         >
           <input
@@ -77,13 +102,13 @@ const Search = () => {
             type='search'
             ref={searchInput}
             placeholder='Search movie'
-            className='w-full pl-12 py-3 text-md md:text-lg text-white search__input  bg-slate-700'
+            className='w-full pl-12 py-3 text-md md:text-lg text-white bg-slate-700 outline-0'
             onChange={handleChange}
             onFocus={handleFocus}
           />
-          <AiOutlineSearch className='text-lg md:text-2xl  search__icon' />
+          <AiOutlineSearch className='text-lg md:text-2xl absolute ml-4' />
           <AiOutlineClose
-            className='text-xl md:text-2xl text-white search__cancel'
+            className='text-xl md:text-2xl text-white absolute cursor-pointer z-50 right-4 '
             onClick={closeSearch}
           />
         </div>
@@ -91,10 +116,7 @@ const Search = () => {
       </div>
     </div>
   ) : (
-    <AiOutlineSearch
-      className='ml-auto mr-5 text-xl md:text-2xl hover:text-white cursor-pointer focus:white '
-      onClick={activateSearch}
-    />
+    searchBtn
   );
 
   return <> {render}</>;
